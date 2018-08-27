@@ -1,0 +1,7 @@
+FROM nginx:1.10.3
+
+RUN mkdir -p /data/logs/development
+
+RUN mkdir -p /etc/nginx/myapp
+
+RUN /etc/init.d/nginx restart

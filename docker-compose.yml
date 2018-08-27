@@ -1,0 +1,40 @@
+version: "3"
+
+services:
+  myapp-php:
+      build:
+        context: ./vendor/myapp/myapp-on-docker/
+        dockerfile: php-extensions
+      volumes:
+          - ./:/data/shop/development/current
+  myapp-web:
+#      build:
+#        context: ./vendor/myapp/myapp-on-docker/
+#        dockerfile: nginx-configs
+      image: nginx:1.10.3
+      ports:
+          - "10080:80"
+      volumes:
+        - ./vendor/myapp/myapp-on-docker/conf/nginx/myapp:/etc/nginx/myapp
+        - ./vendor/myapp/myapp-on-docker/conf/nginx/conf.d:/etc/nginx/conf.d
+        - ./:/data/shop/development/current
+      links:
+          - myapp-php
+
+  myapp-elasticsearch:
+    image: elasticsearch:5.6.8
+    ports:
+     - "10005:9200"
+
+  myapp-redis:
+    image: redis:3.2.6
+    ports:
+     - "10009:6379"
+
+  myapp-psql:
+    image: postgres:9.6.10
+
+  myapp-jenkins:
+    image: jenkins/jenkins:lts
+    ports:
+     - "10007:8080"

@@ -1,0 +1,8 @@
+FROM php:7.2-fpm
+
+RUN mkdir -p /data/shop/development/current
+RUN chmod 777 -R /data/shop/development/current
+
+#install graphviz within php container
+RUN apt-get update && \
+    apt-get install -y graphviz;
